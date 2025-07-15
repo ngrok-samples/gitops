@@ -1,0 +1,95 @@
+---
+apiVersion: ngrok.k8s.ngrok.com/v1alpha1
+kind: CloudEndpoint
+metadata:
+  name: gitops-demo-gateway
+  namespace: ngrok-operator
+  labels:
+    app.kubernetes.io/name: gitops-demo-gateway
+    app.kubernetes.io/part-of: infrastructure
+spec:
+  url: https://gitops-demo.ngrok.app
+  bindings:
+  - public
+  description: "Public gateway for GitOps demo - routes to multiple applications"
+  trafficPolicy:
+    policy:
+      on_http_request:
+      - expressions:
+        - "req.url.path == '/demo-app'"
+        actions:
+        - type: forward-internal
+          config:
+            url: https://demo-app.prod.internal
+      - expressions:
+        - "req.url.path == '/'"
+        actions:
+        - type: custom-response
+          config:
+            status_code: 200
+            headers:
+              content-type: "text/html"
+            body: |
+              <!DOCTYPE html>
+              <html>
+              <head>
+                  <title>GitOps Demo Gateway</title>
+                  <style>
+                      body { 
+                          font-family: Arial, sans-serif; 
+                          max-width: 700px; 
+                          margin: 50px auto; 
+                          padding: 20px; 
+                          text-align: center; 
+                          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                          color: white;
+                          min-height: 80vh;
+                      }
+                      .container {
+                          background: rgba(255,255,255,0.1);
+                          padding: 30px;
+                          border-radius: 10px;
+                          backdrop-filter: blur(10px);
+                      }
+                      h1 { color: #fff; margin-bottom: 30px; }
+                      .route { 
+                          margin: 20px 0; 
+                          padding: 20px; 
+                          background: rgba(255,255,255,0.2); 
+                          border-radius: 8px; 
+                          text-align: left;
+                      }
+                      .route h3 { margin-top: 0; color: #fff; }
+                      a { color: #ffd700; text-decoration: none; font-weight: bold; }
+                      a:hover { text-decoration: underline; }
+                      code { 
+                          background: rgba(0,0,0,0.3); 
+                          padding: 3px 6px; 
+                          border-radius: 3px; 
+                          font-family: monospace;
+                      }
+                  </style>
+              </head>
+              <body>
+                  <div class="container">
+                      <h1>🚀 GitOps Demo Gateway</h1>
+                      <p>This CloudEndpoint demonstrates intelligent request routing using ngrok and ArgoCD.</p>
+                      
+                      <div class="route">
+                          <h3>📱 Demo Application</h3>
+                          <p><strong>Path:</strong> <code>/demo-app</code></p>
+                          <p><strong>Target:</strong> Internal AgentEndpoint</p>
+                          <p><a href="/demo-app">Visit Demo App →</a></p>
+                      </div>
+                      
+                      <div class="route">
+                          <h3>🏠 Gateway Home</h3>
+                          <p><strong>Path:</strong> <code>/</code></p>
+                          <p><strong>Target:</strong> This landing page</p>
+                          <p>Add more applications by updating the Traffic Policy!</p>
+                      </div>
+                      
+                      <p><em>Powered by ngrok Kubernetes Operator + ArgoCD</em></p>
+                  </div>
+              </body>
+              </html>

@@ -1,0 +1,76 @@
+# CRDs are automatically installed by the ngrok operator
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ngrok-operator
+  namespace: ngrok-operator
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ngrok-operator
+rules:
+- apiGroups: [""]
+  resources: ["configmaps", "secrets", "services", "endpoints"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+- apiGroups: ["ngrok.com"]
+  resources: ["agentendpoints", "cloudendpoints", "ngroktrafficpolicies", "domains", "tunnels", "boundendpoints"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: ngrok-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: ngrok-operator
+subjects:
+- kind: ServiceAccount
+  name: ngrok-operator
+  namespace: ngrok-operator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ngrok-operator
+  namespace: ngrok-operator
+  labels:
+    app: ngrok-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ngrok-operator
+  template:
+    metadata:
+      labels:
+        app: ngrok-operator
+    spec:
+      serviceAccountName: ngrok-operator
+      containers:
+      - name: operator
+        image: ngrok/kubernetes-operator:latest
+        imagePullPolicy: Always
+        env:
+        - name: NGROK_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: ngrok-credentials
+              key: API_KEY
+        - name: NGROK_AUTHTOKEN
+          valueFrom:
+            secretKeyRef:
+              name: ngrok-credentials
+              key: AUTHTOKEN
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi

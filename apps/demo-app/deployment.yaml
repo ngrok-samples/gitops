@@ -1,0 +1,131 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: demo-app
+  labels:
+    app: demo-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demo-app
+  template:
+    metadata:
+      labels:
+        app: demo-app
+    spec:
+      containers:
+      - name: demo-app
+        image: nginx:1.21-alpine
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+        volumeMounts:
+        - name: config
+          mountPath: /usr/share/nginx/html
+          readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          name: demo-app-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-app-service
+  namespace: demo-app
+  labels:
+    app: demo-app
+spec:
+  selector:
+    app: demo-app
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-app-config
+  namespace: demo-app
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>GitOps Demo with ngrok</title>
+        <style>
+            body { 
+                font-family: Arial, sans-serif; 
+                max-width: 800px; 
+                margin: 0 auto; 
+                padding: 20px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                min-height: 100vh;
+            }
+            .container {
+                background: rgba(255,255,255,0.1);
+                padding: 30px;
+                border-radius: 10px;
+                backdrop-filter: blur(10px);
+            }
+            h1 { color: #fff; }
+            .feature { 
+                margin: 20px 0; 
+                padding: 15px;
+                background: rgba(255,255,255,0.2);
+                border-radius: 5px;
+            }
+            code { 
+                background: rgba(0,0,0,0.3); 
+                padding: 2px 5px; 
+                border-radius: 3px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>🚀 GitOps Demo with ngrok Kubernetes Operator</h1>
+            <p>This application demonstrates automated production ingress using ngrok and ArgoCD.</p>
+            
+            <div class="feature">
+                <h3>✅ GitOps Workflow</h3>
+                <p>Deployed automatically via ArgoCD from Git repository</p>
+            </div>
+            
+            <div class="feature">
+                <h3>🌐 ngrok Ingress</h3>
+                <p>Secure public access through ngrok tunnels with custom domains</p>
+            </div>
+            
+            <div class="feature">
+            <h3>🔄 Simple Deployment</h3>
+            <p>Direct YAML manifests for easy understanding</p>
+            </div>
+            
+            <div class="feature">
+                <h3>📊 Observability</h3>
+                <p>Built-in monitoring and metrics collection</p>
+            </div>
+            
+            <p><strong>URL:</strong> <code>https://demo-app.prod.internal</code></p>
+            <p><strong>Version:</strong> <code>v1.0.0</code></p>
+            <p><strong>Deployed:</strong> <code id="timestamp"></code></p>
+        </div>
+        
+        <script>
+            document.getElementById('timestamp').textContent = new Date().toISOString();
+        </script>
+    </body>
+    </html>
