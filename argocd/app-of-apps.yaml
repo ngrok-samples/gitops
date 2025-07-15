@@ -9,7 +9,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/your-org/gitops-ngrok-argocd  # Update with your repo URL
+    repoURL: https://github.com/ngrok-samples/gitops
     targetRevision: HEAD
     path: argocd/applications
   destination:

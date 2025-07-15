@@ -28,14 +28,18 @@ kubectl create secret generic ngrok-credentials \
   -n ngrok-operator
 ```
 
-### 3. Update Repository URL
+### 3. Fork Repository (Optional)
 
-Update these files with your actual repository URL:
-- `argocd/app-of-apps.yaml`
-- `argocd/applications/infrastructure.yaml`
-- `argocd/applications/demo-app.yaml`
+This demo uses the public repository `https://github.com/ngrok-samples/gitops`. 
 
-Replace `https://github.com/your-org/gitops-ngrok-argocd` with your repository URL.
+**If you want to make modifications:**
+1. Fork this repository to your own GitHub account
+2. Update the `repoURL` in these files with your fork's URL:
+   - `argocd/app-of-apps.yaml`
+   - `argocd/applications/infrastructure.yaml`
+   - `argocd/applications/demo-app.yaml`
+
+**For testing:** You can use the demo as-is without forking.
 
 ### 4. Deploy
 
