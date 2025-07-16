@@ -1,5 +1,5 @@
 ---
-apiVersion: ngrok.com/v1
+apiVersion: ngrok.com/v1alpha1
 kind: AgentEndpoint
 metadata:
   name: demo-app-endpoint
