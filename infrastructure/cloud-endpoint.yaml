@@ -18,15 +18,15 @@ spec:
     policy:
       on_http_request:
       - expressions:
-        - "req.url.path.startsWith('/demo-app')"
+        - "req.url.path.startsWith('/api/')"
         actions:
         - type: url-rewrite
           config:
-            from: "^/demo-app(/.*)?$"
+            from: "^/api(/.*)?$"
             to: "$1"
         - type: forward-internal
           config:
-            url: https://demo-app.prod.internal
+            url: https://api-demo.prod.internal
       - expressions:
         - "req.url.path == '/'"
         actions:
@@ -82,10 +82,10 @@ spec:
                       <p>This CloudEndpoint demonstrates intelligent request routing using ngrok and ArgoCD.</p>
                       
                       <div class="route">
-                          <h3>📱 Demo Application</h3>
-                          <p><strong>Path:</strong> <code>/demo-app</code></p>
-                          <p><strong>Target:</strong> Internal AgentEndpoint</p>
-                          <p><a href="/demo-app">Visit Demo App →</a></p>
+                      <h3>🚀 API Demo</h3>
+                      <p><strong>Path:</strong> <code>/api/</code></p>
+                      <p><strong>Target:</strong> Internal AgentEndpoint</p>
+                      <p><a href="/api/">Visit API Demo →</a></p>
                       </div>
                       
                       <div class="route">

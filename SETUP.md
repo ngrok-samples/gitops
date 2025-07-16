@@ -67,13 +67,13 @@ Access ArgoCD at https://localhost:8080 with username `admin`.
 2. Verify pods are running:
    ```bash
    kubectl get pods -n ngrok-operator
-   kubectl get pods -n demo-app
+   kubectl get pods -n api-demo
    ```
 3. Check the ngrok endpoint:
    ```bash
-   kubectl get agentendpoint -n demo-app
+   kubectl get agentendpoint -n api-demo
    ```
-4. Access your application at `https://demo-app.prod.internal`
+4. Access your application at `https://gitops-demo.ngrok.app/api/`
 
 ## Troubleshooting
 
@@ -93,8 +93,8 @@ kubectl get applications -n argocd
 kubectl logs -n ngrok-operator deployment/ngrok-operator
 
 # Check ngrok endpoint status
-kubectl describe agentendpoint demo-app-endpoint -n demo-app
+kubectl describe agentendpoint api-demo-endpoint -n api-demo
 
 # View application logs
-kubectl logs -n demo-app deployment/demo-app
+kubectl logs -n api-demo deployment/api-demo
 ```

@@ -9,7 +9,7 @@ A simplified demonstration of how to automate ingress using the ngrok Kubernetes
 │   ├── app-of-apps.yaml      # App of apps pattern
 │   └── applications/         # Individual application manifests
 ├── apps/                     # Application manifests
-│   └── demo-app/            # Simple web application
+│   └── api-demo/            # REST API demonstration app
 ├── infrastructure/          # Infrastructure components
 │   ├── ngrok-operator/     # ngrok Operator installation
 │   └── namespaces/         # Namespace definitions
@@ -41,11 +41,11 @@ kubectl create secret generic ngrok-operator-credentials \
 - **GitOps Workflow**: All deployments managed through Git
 - **ngrok CRDs**: Direct use of ngrok Custom Resources for internal endpoints
 - **App of Apps Pattern**: Centralized management of multiple applications
-- **Internal URL**: Application accessible at `https://demo-app.prod.internal`
+- **Internal URL**: Application accessible at `https://api-demo.prod.internal`
 
 ## Components
 
-- **Demo Application**: Simple nginx web service with custom HTML
+- **API Demo**: REST API service showcasing ngrok features
 - **ngrok Operator**: Kubernetes operator for managing ngrok tunnels
 - **ArgoCD Applications**: Declarative application management using plain YAML manifests
 
@@ -53,4 +53,4 @@ kubectl create secret generic ngrok-operator-credentials \
 
 Once deployed, ArgoCD will automatically sync the applications. Any changes to this repository will trigger updates to the cluster.
 
-Access your application at: `https://demo-app.prod.internal`
+Access your application at: `https://gitops-demo.ngrok.app/api/`

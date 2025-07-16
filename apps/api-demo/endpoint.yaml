@@ -1,0 +1,16 @@
+---
+apiVersion: ngrok.k8s.ngrok.com/v1alpha1
+kind: AgentEndpoint
+metadata:
+  name: api-demo-endpoint
+  namespace: api-demo
+  labels:
+    app: api-demo
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  url: https://api-demo.prod.internal
+  bindings:
+  - internal
+  upstream:
+    url: http://api-demo-service.api-demo:4000

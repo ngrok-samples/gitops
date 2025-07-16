@@ -2,10 +2,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: demo-app
+  name: api-demo
   namespace: argocd
   labels:
-    app.kubernetes.io/name: demo-app
+    app.kubernetes.io/name: api-demo
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
@@ -13,10 +13,10 @@ spec:
   source:
     repoURL: https://github.com/ngrok-samples/gitops
     targetRevision: HEAD
-    path: apps/demo-app
+    path: apps/api-demo
   destination:
     server: https://kubernetes.default.svc
-    namespace: demo-app
+    namespace: api-demo
   syncPolicy:
     automated:
       prune: true
