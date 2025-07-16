@@ -9,7 +9,6 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "2"
 spec:
-  public:
-    addr: https://demo-app.prod.internal
+  url: https://demo-app.prod.internal
   upstream:
     addr: demo-app-service.demo-app.svc.cluster.local:80
