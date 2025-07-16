@@ -20,6 +20,8 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 ### 2. Configure ngrok Credentials
 
+**Note**: The demo uses Helm charts for the ngrok operator to ensure all required CRDs are properly installed.
+
 ```bash
 kubectl create namespace ngrok-operator
 kubectl create secret generic ngrok-operator-credentials \

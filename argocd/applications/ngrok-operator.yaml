@@ -11,11 +11,15 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/ngrok/ngrok-operator
-    targetRevision: main
-    path: .
-    directory:
-      include: manifest-bundle.yaml
+    repoURL: https://charts.ngrok.com
+    chart: ngrok-operator
+    targetRevision: 0.19.0
+    helm:
+      values: |
+        credentials:
+          secret:
+            create: false
+            name: ngrok-operator-credentials
   destination:
     server: https://kubernetes.default.svc
     namespace: ngrok-operator
