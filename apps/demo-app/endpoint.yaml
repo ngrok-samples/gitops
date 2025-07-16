@@ -11,4 +11,4 @@ metadata:
 spec:
   url: https://demo-app.prod.internal
   upstream:
-    url: demo-app-service.demo-app.svc.cluster.local:80
+    url: http://demo-app-service.demo-app:80
