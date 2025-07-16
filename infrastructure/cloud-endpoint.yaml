@@ -18,8 +18,12 @@ spec:
     policy:
       on_http_request:
       - expressions:
-        - "req.url.path == '/demo-app'"
+        - "req.url.path.startsWith('/demo-app')"
         actions:
+        - type: url-rewrite
+          config:
+            from: "^/demo-app(/.*)?$"
+            to: "$1"
         - type: forward-internal
           config:
             url: https://demo-app.prod.internal
