@@ -2,21 +2,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: demo-app
+  name: ngrok-operator
   namespace: argocd
   labels:
-    app.kubernetes.io/name: demo-app
+    app.kubernetes.io/name: ngrok-operator
   annotations:
-    argocd.argoproj.io/sync-wave: "2"
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   project: default
   source:
-    repoURL: https://github.com/ngrok-samples/gitops
-    targetRevision: HEAD
-    path: apps/demo-app
+    repoURL: https://github.com/ngrok/ngrok-operator
+    targetRevision: main
+    path: .
+    directory:
+      include: manifest-bundle.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: demo-app
+    namespace: ngrok-operator
   syncPolicy:
     automated:
       prune: true

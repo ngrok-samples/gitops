@@ -7,6 +7,8 @@ metadata:
   labels:
     app.kubernetes.io/name: gitops-demo-gateway
     app.kubernetes.io/part-of: infrastructure
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   url: https://gitops-demo.ngrok.app
   bindings:

@@ -22,7 +22,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 ```bash
 kubectl create namespace ngrok-operator
-kubectl create secret generic ngrok-credentials \
+kubectl create secret generic ngrok-operator-credentials \
   --from-literal=API_KEY=your_ngrok_api_key \
   --from-literal=AUTHTOKEN=your_ngrok_authtoken \
   -n ngrok-operator

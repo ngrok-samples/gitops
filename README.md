@@ -30,7 +30,7 @@ Before deploying, you'll need to:
 2. Create a Kubernetes secret with your ngrok credentials:
 
 ```bash
-kubectl create secret generic ngrok-credentials \
+kubectl create secret generic ngrok-operator-credentials \
   --from-literal=API_KEY=your_api_key \
   --from-literal=AUTHTOKEN=your_authtoken \
   -n ngrok-operator

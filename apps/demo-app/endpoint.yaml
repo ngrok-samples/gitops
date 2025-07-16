@@ -6,6 +6,8 @@ metadata:
   namespace: demo-app
   labels:
     app: demo-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   public:
     addr: https://demo-app.prod.internal
